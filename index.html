@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FORTRESS — live record</title>
+<style>
+:root {
+  color-scheme: light;
+  --page:#f9f9f7; --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --muted:#898781;
+  --grid:#e1e0d9; --axis:#c3c2b7; --ring:rgba(11,11,11,.10); --good:#006300; --bad:#d03b3b;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s5:#e87ba4;
+  --f-fill:#9ec5f4;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --page:#0d0d0d; --surface:#1a1a19; --ink:#ffffff; --ink2:#c3c2b7; --muted:#898781;
+    --grid:#2c2c2a; --axis:#383835; --ring:rgba(255,255,255,.10); --good:#0ca30c; --bad:#e66767;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181;
+    --f-fill:#184f95;
+  }
+}
+* { box-sizing:border-box; margin:0; }
+body { background:var(--page); color:var(--ink);
+  font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; padding:24px 16px 64px; }
+.wrap { max-width:980px; margin:0 auto; }
+h1 { font-size:26px; letter-spacing:.5px; }
+h1 small { color:var(--ink2); font-size:14px; font-weight:400; margin-left:10px; }
+h2 { font-size:15px; color:var(--ink2); font-weight:600; margin:34px 0 10px; }
+.card { background:var(--surface); border:1px solid var(--ring); border-radius:12px;
+  padding:18px; }
+.tiles { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:10px; margin-top:14px; }
+.tile { background:var(--surface); border:1px solid var(--ring); border-radius:12px;
+  padding:12px 14px; }
+.tile .lbl { font-size:12px; color:var(--muted); }
+.tile .val { font-size:22px; font-weight:650; margin-top:2px; }
+.tile .sub { font-size:12px; color:var(--ink2); }
+.pos { color:var(--good); } .neg { color:var(--bad); }
+table { width:100%; border-collapse:collapse; font-size:14px; }
+th { text-align:left; color:var(--muted); font-weight:500; font-size:12px;
+  border-bottom:1px solid var(--grid); padding:4px 8px; }
+td { padding:6px 8px; border-bottom:1px solid var(--grid); }
+tr:last-child td { border-bottom:none; }
+td.num, th.num { text-align:right; font-variant-numeric:tabular-nums; }
+tr.hero td { font-weight:650; }
+td.ok { color:var(--good); font-weight:600; } td.miss { color:var(--bad); font-weight:600; }
+.legend { display:flex; flex-wrap:wrap; gap:14px; font-size:12.5px; color:var(--ink2);
+  margin:8px 2px 2px; }
+.legend span { display:inline-flex; align-items:center; gap:6px; }
+.sw { width:14px; height:3px; border-radius:2px; display:inline-block; }
+.shield-bar { display:flex; height:26px; border-radius:8px; overflow:hidden; margin:10px 0 6px;
+  background:var(--grid); }
+.shield-bar div { height:100%; }
+.slabel { display:flex; gap:16px; font-size:12.5px; color:var(--ink2); }
+.years { display:grid; grid-template-columns:repeat(auto-fit,minmax(74px,1fr)); gap:6px; }
+.yr { background:var(--surface); border:1px solid var(--ring); border-radius:8px;
+  padding:6px 8px; font-size:12px; }
+.yr span { color:var(--muted); display:block; }
+.yr b { font-variant-numeric:tabular-nums; }
+#chart, #fchart { width:100%; display:block; }
+#tip { position:fixed; pointer-events:none; background:var(--surface);
+  border:1px solid var(--ring); border-radius:8px; padding:8px 10px; font-size:12.5px;
+  box-shadow:0 4px 14px rgba(0,0,0,.12); display:none; z-index:5; min-width:150px; }
+#tip .d { color:var(--muted); margin-bottom:4px; }
+#tip .row { display:flex; justify-content:space-between; gap:14px; }
+.note { font-size:12.5px; color:var(--muted); margin-top:8px; }
+.disc { font-size:12px; color:var(--muted); line-height:1.6; }
+a { color:var(--s1); }
+</style></head><body><div class="wrap">
+
+<h1>FORTRESS <small>halal S&amp;P-500 strategy — live paper record</small></h1>
+<div class="note">Beats the S&amp;P with a shield, not a rocket. Long-only, unlevered,
+AAOIFI-screened. Marked Aug 12, 2026 · record since Aug 12, 2026
+· 0 trading day(s).</div>
+
+<div class="tiles">
+  <div class="tile"><div class="lbl">Paper NAV</div>
+    <div class="val">$250,000</div>
+    <div class="sub pos">+0.00% since inception</div></div>
+  <div class="tile"><div class="lbl">vs SPY</div>
+    <div class="val pos">+0.00 pp</div>
+    <div class="sub">spread since inception</div></div>
+  <div class="tile"><div class="lbl">Shield — equity fraction f</div>
+    <div class="val">53%</div>
+    <div class="sub">as of 2026-08-12</div></div>
+  <div class="tile"><div class="lbl">De-risked sleeve</div>
+    <div class="val">47%</div>
+    <div class="sub">23% gold · 23% cash (0%)</div></div>
+</div>
+
+<h2>Every $100 since inception</h2>
+<div class="card">
+  <svg id="chart" height="320" role="img" aria-label="Growth of $100: FORTRESS vs SPY, QQQ, SPUS, HLAL"></svg>
+  <div class="legend">
+    <span><i class="sw" style="background:var(--s1)"></i>FORTRESS</span>
+    <span><i class="sw" style="background:var(--s2)"></i>SPY</span>
+    <span><i class="sw" style="background:var(--s3)"></i>QQQ</span>
+    <span><i class="sw" style="background:var(--s4)"></i>SPUS</span>
+    <span><i class="sw" style="background:var(--s5)"></i>HLAL</span>
+  </div>
+</div>
+
+<h2>The shield in action — executed equity fraction</h2>
+<div class="card">
+  <svg id="fchart" height="120" role="img" aria-label="Executed equity fraction over time"></svg>
+  <div class="note">f rides 100% in calm tape; the vol target and the drawdown brake pull it
+  as low as 25% under stress. De-risked capital: half gold, half 0% cash. Frozen rule —
+  never refit.</div>
+</div>
+
+<h2>Standing vs the field (live record)</h2>
+<div class="card"><table>
+  <tr><th>Series</th><th class="num">Return</th><th class="num">Max DD</th><th class="num">$250k grew to</th></tr>
+  <tr class='hero'><td>FORTRESS</td><td class='num'>+0.00%</td><td class='num'>0.00%</td><td class='num'>$250,000</td></tr><tr class=''><td>SPY</td><td class='num'>+0.00%</td><td class='num'>0.00%</td><td class='num'>$250,000</td></tr><tr class=''><td>QQQ</td><td class='num'>+0.00%</td><td class='num'>0.00%</td><td class='num'>$250,000</td></tr><tr class=''><td>SPUS</td><td class='num'>+0.00%</td><td class='num'>0.00%</td><td class='num'>$250,000</td></tr><tr class=''><td>HLAL</td><td class='num'>+0.00%</td><td class='num'>0.00%</td><td class='num'>$250,000</td></tr>
+</table></div>
+
+<h2>Audited backtest — 2010–2025, net of costs, delisting-safe data</h2>
+<div class="card"><table>
+  <tr><th></th><th class="num">CAGR</th><th class="num">Sharpe</th><th class="num">Max DD</th><th class="num">Worst yr</th></tr>
+  <tr class='hero'><td>FORTRESS</td><td class='num'>17.52%</td><td class='num'>1.073</td><td class='num'>-24.3%</td><td class='num'>-19.7%</td></tr><tr class=''><td>SPY</td><td class='num'>13.93%</td><td class='num'>0.844</td><td class='num'>-33.72%</td><td class='num'>-18.18%</td></tr><tr class=''><td>QQQ</td><td class='num'>18.6%</td><td class='num'>0.93</td><td class='num'>-35.12%</td><td class='num'>-32.58%</td></tr>
+</table>
+<div class="note">FORTRESS net of 10 bps/side x measured turnover; benchmarks gross. Strictly-common trading index, 2010-2025, delisting-safe point-in-time data (re-derived 2026-08-12). 2020-2025 is semi-out-of-sample.</div></div>
+
+<h2>Product targets (full period, net)</h2>
+<div class="card"><table>
+  <tr><th>Target</th><th class="num">Value</th><th class="num">Bar</th><th>Verdict</th></tr>
+  <tr><td>CAGR (net)</td><td class='num'>17.52</td><td class='num'>>= 16.0</td><td class='ok'>PASS</td></tr><tr><td>Sharpe (net)</td><td class='num'>1.073</td><td class='num'>>= 1.05</td><td class='ok'>PASS</td></tr><tr><td>Max drawdown (net)</td><td class='num'>-24.3</td><td class='num'>>= -25.0</td><td class='ok'>PASS</td></tr><tr><td>Worst year (net)</td><td class='num'>-19.7</td><td class='num'>> -18.0</td><td class='miss'>MISS</td></tr>
+</table></div>
+
+<h2>Backtest annual returns (gross)</h2>
+<div class="years"><div class='yr'><span>2010</span><b class=''>+12.2%</b></div><div class='yr'><span>2011</span><b class=''>+1.0%</b></div><div class='yr'><span>2012</span><b class=''>+18.1%</b></div><div class='yr'><span>2013</span><b class=''>+37.0%</b></div><div class='yr'><span>2014</span><b class=''>+20.3%</b></div><div class='yr'><span>2015</span><b class=''>+7.3%</b></div><div class='yr'><span>2016</span><b class=''>+5.9%</b></div><div class='yr'><span>2017</span><b class=''>+33.2%</b></div><div class='yr'><span>2018</span><b class='neg'>-2.8%</b></div><div class='yr'><span>2019</span><b class=''>+36.8%</b></div><div class='yr'><span>2020</span><b class=''>+31.1%</b></div><div class='yr'><span>2021</span><b class=''>+34.3%</b></div><div class='yr'><span>2022</span><b class='neg'>-19.4%</b></div><div class='yr'><span>2023</span><b class=''>+41.2%</b></div><div class='yr'><span>2024</span><b class=''>+34.2%</b></div><div class='yr'><span>2025</span><b class=''>+16.0%</b></div></div>
+
+<h2>Core book — top 15 of 60 holdings (53% of NAV)</h2>
+<div class="card"><table>
+  <tr><th>Ticker</th><th class="num">Weight in core</th></tr>
+  <tr><td>NVDA</td><td class='num'>15.05%</td></tr><tr><td>AAPL</td><td class='num'>14.47%</td></tr><tr><td>GOOGL</td><td class='num'>13.92%</td></tr><tr><td>MSFT</td><td class='num'>9.26%</td></tr><tr><td>AVGO</td><td class='num'>5.47%</td></tr><tr><td>META</td><td class='num'>4.72%</td></tr><tr><td>TSLA</td><td class='num'>4.72%</td></tr><tr><td>MU</td><td class='num'>3.52%</td></tr><tr><td>WMT</td><td class='num'>2.84%</td></tr><tr><td>AMD</td><td class='num'>2.70%</td></tr><tr><td>INTC</td><td class='num'>1.93%</td></tr><tr><td>AMAT</td><td class='num'>1.53%</td></tr><tr><td>CSCO</td><td class='num'>1.42%</td></tr><tr><td>LRCX</td><td class='num'>1.40%</td></tr><tr><td>PLTR</td><td class='num'>0.99%</td></tr>
+</table>
+<div class="note">Top-100 halal Nasdaq book (deployed top-60 form), cap-weighted, 20% single-name
+cap, AAOIFI screen + 130-name exclusion list. Reconstituted monthly.</div></div>
+
+<h2>Disclosures</h2>
+<div class="disc">Paper NAV is simulated — modeled from adjusted daily closing prices, not
+broker fills — and gross of trading costs. The 2010–2025 figures are hypothetical backtested
+results on point-in-time, delisting-safe CRSP/Compustat data; the 2020–2025 window is
+semi-out-of-sample (the strategy's core was finalized after that window had been observed
+once). The live record on this page is the strategy's first true forward test. The clamp
+parameters (σ*=0.20, D*=0.12) and every convention are frozen; nothing on this page is ever
+refit. Past performance does not predict future results. For the operator's use — not an
+offer or solicitation. Cash earns 0% (no interest, halal). Purification of impermissible
+dividend income is handled at the administrator level.</div>
+
+</div>
+<div id="tip"></div>
+<script>
+const DATA = {"dates": ["2026-08-12"], "series": [{"key": "FORTRESS", "vals": [100.0]}, {"key": "SPY", "vals": [100.0]}, {"key": "QQQ", "vals": [100.0]}, {"key": "SPUS", "vals": [100.0]}, {"key": "HLAL", "vals": [100.0]}], "f": [0.5315]};
+const CSS = getComputedStyle(document.documentElement);
+const COL = ["--s1","--s2","--s3","--s4","--s5"].map(v => `var(${v})`);
+
+function draw() {
+  drawGrowth(); drawF();
+}
+function sizes(svg, mL, mR, mT, mB) {
+  const W = svg.clientWidth, H = parseInt(svg.getAttribute("height"));
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  return {W, H, mL, mR, mT, mB, iw: W-mL-mR, ih: H-mT-mB};
+}
+function drawGrowth() {
+  const svg = document.getElementById("chart");
+  const g = sizes(svg, 44, 70, 10, 22);
+  const n = DATA.dates.length;
+  let lo = Infinity, hi = -Infinity;
+  DATA.series.forEach(s => s.vals.forEach(v => { lo = Math.min(lo,v); hi = Math.max(hi,v); }));
+  const pad = (hi-lo)*0.06 || 2; lo -= pad; hi += pad;
+  const x = i => g.mL + (n<=1 ? 0 : i/(n-1)*g.iw);
+  const y = v => g.mT + (1-(v-lo)/(hi-lo))*g.ih;
+  let el = "";
+  const ticks = 4;
+  for (let t=0;t<=ticks;t++) {
+    const v = lo + (hi-lo)*t/ticks, yy = y(v);
+    el += `<line x1="${g.mL}" x2="${g.mL+g.iw}" y1="${yy}" y2="${yy}" stroke="var(--grid)"/>`;
+    el += `<text x="${g.mL-6}" y="${yy+4}" text-anchor="end" font-size="11" fill="var(--muted)">$${v.toFixed(0)}</text>`;
+  }
+  const step = Math.max(1, Math.floor(n/6));
+  for (let i=0;i<n;i+=step) {
+    el += `<text x="${x(i)}" y="${g.H-6}" text-anchor="middle" font-size="11" fill="var(--muted)">${DATA.dates[i].slice(5)}</text>`;
+  }
+  DATA.series.forEach((s,si) => {
+    const pts = s.vals.map((v,i)=>`${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
+    el += `<polyline points="${pts}" fill="none" stroke="${COL[si]}" stroke-width="${si===0?2.5:2}" ${si>0?'opacity="0.85"':''}/>`;
+    const vy = y(s.vals[n-1]);
+    if (si < 2) el += `<text x="${g.mL+g.iw+6}" y="${vy+4}" font-size="11.5" font-weight="600" fill="var(--ink2)">${s.key} $${s.vals[n-1].toFixed(1)}</text>`;
+  });
+  el += `<line id="xh" y1="${g.mT}" y2="${g.mT+g.ih}" stroke="var(--axis)" stroke-dasharray="3,3" visibility="hidden"/>`;
+  svg.innerHTML = el;
+  hover(svg, g, n, i => {
+    let h = `<div class="d">${DATA.dates[i]}</div>`;
+    DATA.series.forEach((s,si)=>{ h += `<div class="row"><span><i class="sw" style="background:${COL[si]};margin-right:5px"></i>${s.key}</span><b>$${s.vals[i].toFixed(1)}</b></div>`; });
+    return h;
+  }, x);
+}
+function drawF() {
+  const svg = document.getElementById("fchart");
+  const g = sizes(svg, 44, 70, 8, 20);
+  const f = DATA.f, n = f.length;
+  const x = i => g.mL + (n<=1 ? 0 : i/(n-1)*g.iw);
+  const y = v => g.mT + (1-(v-0)/(1.05))*g.ih;
+  let el = "";
+  [0.25, 0.5, 1.0].forEach(v => {
+    el += `<line x1="${g.mL}" x2="${g.mL+g.iw}" y1="${y(v)}" y2="${y(v)}" stroke="var(--grid)"/>`;
+    el += `<text x="${g.mL-6}" y="${y(v)+4}" text-anchor="end" font-size="11" fill="var(--muted)">${(v*100)}%</text>`;
+  });
+  let area = `M ${x(0)} ${y(0)} `;
+  f.forEach((v,i)=>{ area += `L ${x(i).toFixed(1)} ${y(v==null?0:v).toFixed(1)} `; });
+  area += `L ${x(n-1)} ${y(0)} Z`;
+  el += `<path d="${area}" fill="var(--f-fill)" opacity="0.55"/>`;
+  const pts = f.map((v,i)=>`${x(i).toFixed(1)},${y(v==null?0:v).toFixed(1)}`).join(" ");
+  el += `<polyline points="${pts}" fill="none" stroke="var(--s1)" stroke-width="2"/>`;
+  el += `<line id="xh" y1="${g.mT}" y2="${g.mT+g.ih}" stroke="var(--axis)" stroke-dasharray="3,3" visibility="hidden"/>`;
+  svg.innerHTML = el;
+  hover(svg, g, n, i => `<div class="d">${DATA.dates[i]}</div><div class="row"><span>equity f</span><b>${(f[i]*100).toFixed(0)}%</b></div>`, x);
+}
+function hover(svg, g, n, html, x) {
+  const tip = document.getElementById("tip");
+  const xh = svg.querySelector("#xh");
+  svg.addEventListener("mousemove", e => {
+    const r = svg.getBoundingClientRect();
+    const px = e.clientX - r.left;
+    if (px < g.mL || px > g.mL+g.iw) { tip.style.display="none"; xh.setAttribute("visibility","hidden"); return; }
+    const i = Math.round((px-g.mL)/g.iw*(n-1));
+    xh.setAttribute("x1", x(i)); xh.setAttribute("x2", x(i));
+    xh.setAttribute("visibility","visible");
+    tip.innerHTML = html(i);
+    tip.style.display = "block";
+    tip.style.left = Math.min(e.clientX+14, window.innerWidth-190) + "px";
+    tip.style.top = (e.clientY+14) + "px";
+  });
+  svg.addEventListener("mouseleave", () => {
+    tip.style.display="none"; xh.setAttribute("visibility","hidden");
+  });
+}
+draw();
+addEventListener("resize", draw);
+</script>
+</body></html>

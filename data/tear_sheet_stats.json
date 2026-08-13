@@ -1,0 +1,70 @@
+{
+ "rows": [
+  {
+   "k": "FORTRESS",
+   "cagr": 17.52,
+   "sharpe": 1.073,
+   "mdd": -24.3,
+   "worst": -19.7
+  },
+  {
+   "k": "SPY",
+   "cagr": 13.93,
+   "sharpe": 0.844,
+   "mdd": -33.72,
+   "worst": -18.18
+  },
+  {
+   "k": "QQQ",
+   "cagr": 18.6,
+   "sharpe": 0.93,
+   "mdd": -35.12,
+   "worst": -32.58
+  }
+ ],
+ "targets": [
+  {
+   "name": "CAGR (net)",
+   "value": 17.52,
+   "target": ">= 16.0",
+   "pass": true
+  },
+  {
+   "name": "Sharpe (net)",
+   "value": 1.073,
+   "target": ">= 1.05",
+   "pass": true
+  },
+  {
+   "name": "Max drawdown (net)",
+   "value": -24.3,
+   "target": ">= -25.0",
+   "pass": true
+  },
+  {
+   "name": "Worst year (net)",
+   "value": -19.7,
+   "target": "> -18.0",
+   "pass": false
+  }
+ ],
+ "annual": {
+  "2010": 12.23,
+  "2011": 0.98,
+  "2012": 18.1,
+  "2013": 37.04,
+  "2014": 20.28,
+  "2015": 7.34,
+  "2016": 5.88,
+  "2017": 33.23,
+  "2018": -2.78,
+  "2019": 36.82,
+  "2020": 31.09,
+  "2021": 34.3,
+  "2022": -19.45,
+  "2023": 41.16,
+  "2024": 34.16,
+  "2025": 15.98
+ },
+ "note": "FORTRESS net of 10 bps/side x measured turnover; benchmarks gross. Strictly-common trading index, 2010-2025, delisting-safe point-in-time data (re-derived 2026-08-12). 2020-2025 is semi-out-of-sample."
+}
