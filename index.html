@@ -71,19 +71,19 @@ a { color:var(--s1); }
 
 <h1>FORTRESS <small>halal S&amp;P-500 strategy — live paper record</small></h1>
 <div class="note">Beats the S&amp;P with a shield, not a rocket. Long-only, unlevered,
-AAOIFI-screened. Marked Aug 13, 2026 · record since Aug 12, 2026
-· 1 trading day(s).</div>
+AAOIFI-screened. Marked Aug 14, 2026 · record since Aug 12, 2026
+· 2 trading day(s).</div>
 
 <div class="tiles">
   <div class="tile"><div class="lbl">Paper NAV</div>
-    <div class="val">$250,684</div>
-    <div class="sub pos">+0.27% since inception</div></div>
+    <div class="val">$250,841</div>
+    <div class="sub pos">+0.34% since inception</div></div>
   <div class="tile"><div class="lbl">vs SPY</div>
-    <div class="val neg">-0.42 pp</div>
+    <div class="val neg">-0.16 pp</div>
     <div class="sub">spread since inception</div></div>
   <div class="tile"><div class="lbl">Shield — equity fraction f</div>
     <div class="val">53%</div>
-    <div class="sub">as of 2026-08-13</div></div>
+    <div class="sub">as of 2026-08-14</div></div>
   <div class="tile"><div class="lbl">De-risked sleeve</div>
     <div class="val">47%</div>
     <div class="sub">23% gold · 23% cash (0%)</div></div>
@@ -112,7 +112,7 @@ AAOIFI-screened. Marked Aug 13, 2026 · record since Aug 12, 2026
 <h2>Standing vs the field (live record)</h2>
 <div class="card"><table>
   <tr><th>Series</th><th class="num">Return</th><th class="num">Max DD</th><th class="num">$250k grew to</th></tr>
-  <tr class='hero'><td>FORTRESS</td><td class='num'>+0.27%</td><td class='num'>0.00%</td><td class='num'>$250,684</td></tr><tr class=''><td>SPY</td><td class='num'>+0.70%</td><td class='num'>0.00%</td><td class='num'>$251,744</td></tr><tr class=''><td>QQQ</td><td class='num'>+1.16%</td><td class='num'>0.00%</td><td class='num'>$252,891</td></tr><tr class=''><td>SPUS</td><td class='num'>+0.56%</td><td class='num'>0.00%</td><td class='num'>$251,396</td></tr><tr class=''><td>HLAL</td><td class='num'>+0.85%</td><td class='num'>0.00%</td><td class='num'>$252,114</td></tr>
+  <tr class='hero'><td>FORTRESS</td><td class='num'>+0.34%</td><td class='num'>0.00%</td><td class='num'>$250,841</td></tr><tr class=''><td>SPY</td><td class='num'>+0.50%</td><td class='num'>-0.20%</td><td class='num'>$251,246</td></tr><tr class=''><td>QQQ</td><td class='num'>+1.02%</td><td class='num'>-0.14%</td><td class='num'>$252,546</td></tr><tr class=''><td>SPUS</td><td class='num'>+0.34%</td><td class='num'>-0.22%</td><td class='num'>$250,846</td></tr><tr class=''><td>HLAL</td><td class='num'>+0.63%</td><td class='num'>-0.21%</td><td class='num'>$251,574</td></tr>
 </table></div>
 
 <h2>Audited backtest — 2010–2025, net of costs, delisting-safe data</h2>
@@ -153,7 +153,7 @@ dividend income is handled at the administrator level.</div>
 </div>
 <div id="tip"></div>
 <script>
-const DATA = {"dates": ["2026-08-12", "2026-08-13"], "series": [{"key": "FORTRESS", "vals": [100.0, 100.27351762951191]}, {"key": "SPY", "vals": [100.0, 100.69774556519525]}, {"key": "QQQ", "vals": [100.0, 101.15655589001055]}, {"key": "SPUS", "vals": [100.0, 100.55827780908471]}, {"key": "HLAL", "vals": [100.0, 100.84563906678406]}], "f": [0.5315, 0.5315]};
+const DATA = {"dates": ["2026-08-12", "2026-08-13", "2026-08-14"], "series": [{"key": "FORTRESS", "vals": [100.0, 100.27351762951189, 100.3364406227461]}, {"key": "SPY", "vals": [100.0, 100.69774556519525, 100.4983930756081]}, {"key": "QQQ", "vals": [100.0, 101.15655589001057, 101.01837708896973]}, {"key": "SPUS", "vals": [100.0, 100.55827780908471, 100.33835351188345]}, {"key": "HLAL", "vals": [100.0, 100.84563906678405, 100.62953287705041]}], "f": [0.5315, 0.5315, 0.5315]};
 const CSS = getComputedStyle(document.documentElement);
 const COL = ["--s1","--s2","--s3","--s4","--s5"].map(v => `var(${v})`);
 
